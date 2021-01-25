@@ -5,6 +5,7 @@ import chart.candlestick.performance.domain.entities.*
 import chart.candlestick.performance.domain.utils.Result
 import chart.candlestick.performance.domain.repositories.CandlesticksPerformanceRepository
 import chart.candlestick.performance.service.CandlesticksRemoteService
+import java.lang.Exception
 
 class CandlesticksRepositoryImpl(
     private val candlesticksRemoteService: CandlesticksRemoteService,
@@ -17,7 +18,11 @@ class CandlesticksRepositoryImpl(
         }
         response
     } else {
-        Result.Success(candlesticksDatabase.candlesticksDao.findAllCandlesticks())
+        try {
+            Result.Success(candlesticksDatabase.candlesticksDao.findAllCandlesticks())
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
     }
 
     override fun getMonthlyResponse(isRemote: Boolean): Result<MonthlyResponse> = if (isRemote) {
@@ -27,7 +32,11 @@ class CandlesticksRepositoryImpl(
         }
         response
     } else {
-        Result.Success(candlesticksDatabase.candlesticksDao.findAllCandlesticksMonthly())
+        try {
+            Result.Success(candlesticksDatabase.candlesticksDao.findAllCandlesticksMonthly())
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
     }
 
     private fun insertWeeklyResponse(weekly: WeeklyResponse) {

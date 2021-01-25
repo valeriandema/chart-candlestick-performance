@@ -5,12 +5,13 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import chart.candlestick.performance.R
 import chart.candlestick.performance.domain.entities.Content
-import chart.candlestick.performance.domain.entities.MonthlyResponse
 import chart.candlestick.performance.utils.Data
 import chart.candlestick.performance.utils.Status
 import chart.candlestick.performance.view_model.CandlesticksViewModel
 import com.google.android.material.button.MaterialButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
+import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModel<CandlesticksViewModel>()
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewModel.mainState.observe(::getLifecycle, ::updateUI)
+        viewModel.performanceState.observe(::getLifecycle, ::showPerformance)
 
         findViewById<MaterialButton>(R.id.btnWeeklyData).setOnClickListener {
             viewModel.getWeeklyResponse(true)
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         when (result.responseType) {
             Status.ERROR -> {
                 //Show error message
+                Log.e("ERROR", "${result.error?.localizedMessage}")
             }
             Status.LOADING -> {
                 //Update loader's state
@@ -49,14 +52,7 @@ class MainActivity : AppCompatActivity() {
             Status.SUCCESSFUL -> {
                 result.data?.let {
                     with(it as Content) {
-                        //val arrayList = arrayListOf<Pair<Long, DoubleArray>>()
-                        //val size = this.quoteSymbols.size
-
-                        val res = this.quoteSymbols.map { item -> Pair(item.timestamps, item.closures) }
-
-                        for (i in res.indices) {
-                            Log.e("res i", "${res[i]}")
-                        }
+                        viewModel.getCalculatePerformance(this)
                     }
                 }
 
@@ -64,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun computePerformance() {
-
+    private fun showPerformance(performance: SortedMap<Long, MutableList<Double>>) {
+        Log.e("performance", "$performance")
     }
 }
