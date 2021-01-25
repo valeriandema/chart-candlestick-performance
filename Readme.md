@@ -1,3 +1,6 @@
+# Introduction
+This is a sample app that computes candlesticks performance based on mocked values 
+
 # MVVM, Clean Architecture, Coroutines, Room, Retrofit, Koin, Kotlin
 
 The project consists of 3 main modules
