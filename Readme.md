@@ -82,3 +82,30 @@ fun getWeeklyResponse(isRemote: Boolean) = viewModelScope.launch {
         }
     }
 ```
+
+Business logic for calculating candlestick's performance. The complexity of an algorithm **log(𝑛)2**
+```
+fun getCalculatePerformance(content: Content) = viewModelScope.launch {
+        when (val result = withContext(Dispatchers.Default) {
+            val hashMap: SortedMap<Long, MutableList<Double>> = sortedMapOf()
+            content.quoteSymbols.forEach { quoteSymbol ->
+                quoteSymbol.lows.forEachIndexed { index, d ->
+                    if (hashMap.containsKey(quoteSymbol.timestamps[index])) {
+                        hashMap[quoteSymbol.timestamps[index]]?.add(d)
+                    } else {
+                        hashMap[quoteSymbol.timestamps[index]] = mutableListOf(d)
+                    }
+                }
+            }
+            hashMap.forEach {
+                val firstVal = it.value.first()
+                it.value.forEachIndexed { index, d ->
+                    it.value[index] = d - firstVal
+                }
+            }
+            hashMap
+        }) { result ->
+            mutablePerformanceState.value = result
+        }
+    }
+    ```
