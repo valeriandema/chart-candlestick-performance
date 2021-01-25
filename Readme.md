@@ -8,7 +8,7 @@ The project consists of 3 main modules
 
 # How it works
 
-The project simulate a network query by adding interceptor into **OkHttpClient** which will return parced local json file from **assets** folder
+The project simulate a network query by adding interceptor into **OkHttpClient** which returns a parced local json file from **assets** folder
 
 ```
 override fun intercept(chain: Interceptor.Chain): Response {
@@ -34,3 +34,11 @@ override fun intercept(chain: Interceptor.Chain): Response {
             .build()
 } 
 ```
+
+
+Right afer the network query finishes succesfully it's response is saved into local database by **Room**
+
+```
+@Insert(onConflict = OnConflictStrategy.REPLACE)
+fun addAll(weekly: WeeklyResponse): Long
+ ```
