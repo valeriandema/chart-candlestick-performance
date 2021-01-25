@@ -9,6 +9,8 @@ The project consists of 3 main modules
 * __Domain__: Layer with the business logic. Contains the use cases, in charge of calling the correct repository or data member.
 * __Data__: Layer with the responsibility of selecting the proper data source for the domain layer. It contains the implementations of  the repositories declared in the domain layer.
 
+![Screenshot](clean_architecture.png)
+
 # How it works
 
 The project simulate a network query by adding interceptor into **OkHttpClient** which returns a parced local json file from **assets** folder
