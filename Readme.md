@@ -48,7 +48,7 @@ Right afer the network query finishes succesfully it's response is saved into lo
 fun addAll(weekly: WeeklyResponse): Long
  ```
 
-Remote and local repositories are managed by **Koin** which are used in ViewModel
+Remote and local repositories are managed by **Koin** which are used in **ViewModel**
 
 ```
 val repositoriesModule = module {
@@ -56,4 +56,11 @@ val repositoriesModule = module {
     single { Room.databaseBuilder(androidContext(), CandlesticksDatabase::class.java, "candlesticks").build() }
     single<CandlesticksPerformanceRepository> { CandlesticksRepositoryImpl(get(), get()) }
 }
+```
+
+And **ViewModel** with injected repositories is added into **MainActivity**, where observes the states from **data** module  
+
+```
+class MainActivity : AppCompatActivity() {
+    private val viewModel by viewModel<CandlesticksViewModel>()
 ```
