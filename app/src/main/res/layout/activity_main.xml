@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnWeeklyData"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/download_daily_candlesticks_data"
+        app:layout_constraintEnd_toStartOf="@+id/btnMonthlyData"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnMonthlyData"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintWidth_percent="0.5"
+        android:layout_marginStart="4dp"
+        android:text="@string/download_weekly_candlesticks_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnWeeklyDataLocal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/download_daily_candlesticks_data_local"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnMonthlyData"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnWeeklyData"/>
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnMonthlyDataLocal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintWidth_percent="0.5"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/download_weekly_candlesticks_data_local"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnWeeklyData"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

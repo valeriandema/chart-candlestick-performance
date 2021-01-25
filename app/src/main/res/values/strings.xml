@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Chart Candlestick Performance</string>
+    <string name="download_daily_candlesticks_data">Weekly data</string>
+    <string name="download_weekly_candlesticks_data">Monthly data</string>
+
+    <string name="download_daily_candlesticks_data_local">Weekly local data</string>
+    <string name="download_weekly_candlesticks_data_local">Monthly local data</string>
+</resources>
