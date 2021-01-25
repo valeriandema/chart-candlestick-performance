@@ -64,3 +64,21 @@ And **ViewModel** with injected repositories is added into **MainActivity**, whe
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModel<CandlesticksViewModel>()
 ```
+
+The work with repositories is carried out inside **viewModelScope** 
+
+Any coroutine launched in this scope is automatically canceled if the **ViewModel is cleared**
+For example, if you are computing some data for a layout, you should scope the work to the ViewModel so that if the ViewModel is cleared, the work is canceled automatically to avoid consuming resources. In current case it is network/db request the IO dispatcher is used for this purpose
+
+```
+fun getWeeklyResponse(isRemote: Boolean) = viewModelScope.launch {
+        when (val result = withContext(Dispatchers.IO) { getWeeklyResponseUseCase(isRemote) }) {
+            is Result.Failure -> {
+                mutableMainState.value = Data(responseType = Status.ERROR, error = result.exception)
+            }
+            is Result.Success<WeeklyResponse> -> {
+                mutableMainState.value = Data(responseType = Status.SUCCESSFUL, data = result.data.content)
+           }
+        }
+    }
+```
