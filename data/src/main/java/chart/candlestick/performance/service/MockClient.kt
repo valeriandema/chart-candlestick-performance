@@ -1,7 +1,7 @@
 package chart.candlestick.performance.service
 
 import android.content.Context
-import chart.candlestick.performance.getJsonFromAssets
+import chart.candlestick.performance.utils.getJsonFromAssets
 import okhttp3.*
 
 class MockClient(private val context: Context) : Interceptor {

@@ -1,4 +1,4 @@
-package chart.candlestick.performance
+package chart.candlestick.performance.utils
 
 import android.content.Context
 import java.io.IOException
