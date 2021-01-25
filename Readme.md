@@ -1,4 +1,4 @@
-# Clean Architecture Coroutines Room Koin
+# Clean Architecture, Coroutines, Room, Retrofit, Koin, Kotlin
 
 The project consists of 3 main modules
 
