@@ -42,3 +42,13 @@ Right afer the network query finishes succesfully it's response is saved into lo
 @Insert(onConflict = OnConflictStrategy.REPLACE)
 fun addAll(weekly: WeeklyResponse): Long
  ```
+
+Remote and local repositories are managed by **Koin** which are used in ViewModel
+
+```
+val repositoriesModule = module {
+    single { CandlesticksRemoteService(androidContext()) }
+    single { Room.databaseBuilder(androidContext(), CandlesticksDatabase::class.java, "candlesticks").build() }
+    single<CandlesticksPerformanceRepository> { CandlesticksRepositoryImpl(get(), get()) }
+}
+```
