@@ -9,6 +9,8 @@ The project consists of 3 main modules
 * __Domain__: Layer with the business logic. Contains the use cases, in charge of calling the correct repository or data member.
 * __Data__: Layer with the responsibility of selecting the proper data source for the domain layer. It contains the implementations of  the repositories declared in the domain layer.
 
+![Screenshot](clean_architecture.png)
+
 # How it works
 
 The project simulate a network query by adding interceptor into **OkHttpClient** which returns a parced local json file from **assets** folder
@@ -46,7 +48,7 @@ Right afer the network query finishes succesfully it's response is saved into lo
 fun addAll(weekly: WeeklyResponse): Long
  ```
 
-Remote and local repositories are managed by **Koin** which are used in ViewModel
+Remote and local repositories are managed by **Koin** which are used in **ViewModel**
 
 ```
 val repositoriesModule = module {
@@ -54,4 +56,29 @@ val repositoriesModule = module {
     single { Room.databaseBuilder(androidContext(), CandlesticksDatabase::class.java, "candlesticks").build() }
     single<CandlesticksPerformanceRepository> { CandlesticksRepositoryImpl(get(), get()) }
 }
+```
+
+And **ViewModel** with injected repositories is added into **MainActivity**, where observes the states from **data** module  
+
+```
+class MainActivity : AppCompatActivity() {
+    private val viewModel by viewModel<CandlesticksViewModel>()
+```
+
+The work with repositories is carried out inside **viewModelScope** 
+
+Any coroutine launched in this scope is automatically canceled if the **ViewModel is cleared**
+For example, if you are computing some data for a layout, you should scope the work to the ViewModel so that if the ViewModel is cleared, the work is canceled automatically to avoid consuming resources. In current case it is network/db request the IO dispatcher is used for this purpose
+
+```
+fun getWeeklyResponse(isRemote: Boolean) = viewModelScope.launch {
+        when (val result = withContext(Dispatchers.IO) { getWeeklyResponseUseCase(isRemote) }) {
+            is Result.Failure -> {
+                mutableMainState.value = Data(responseType = Status.ERROR, error = result.exception)
+            }
+            is Result.Success<WeeklyResponse> -> {
+                mutableMainState.value = Data(responseType = Status.SUCCESSFUL, data = result.data.content)
+           }
+        }
+    }
 ```
