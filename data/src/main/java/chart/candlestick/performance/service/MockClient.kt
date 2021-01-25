@@ -3,15 +3,17 @@ package chart.candlestick.performance.service
 import android.content.Context
 import chart.candlestick.performance.utils.getJsonFromAssets
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.ResponseBody.Companion.toResponseBody
 
 class MockClient(private val context: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val path = when {
-            chain.request().url().pathSegments().contains("weeklyResponse") -> {
+            chain.request().url.pathSegments.contains("weeklyResponse") -> {
                 "week.json"
             }
-            chain.request().url().pathSegments().contains("monthlyResponse") -> {
+            chain.request().url.pathSegments.contains("monthlyResponse") -> {
                 "month.json"
             }
             else -> {
@@ -24,7 +26,7 @@ class MockClient(private val context: Context) : Interceptor {
             .message(response)
             .request(chain.request())
             .protocol(Protocol.HTTP_1_1)
-            .body(ResponseBody.create(MediaType.parse("application/json"), response))
+            .body(response.toResponseBody("application/json".toMediaTypeOrNull()))
             .addHeader("content-type", "application/json")
             .build()
     }

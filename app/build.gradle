@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion rootProject.ext.myCompileSdkVersion
     buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "chart.candlestick.performance"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion rootProject.ext.myMinSdkVersion
+        targetSdkVersion rootProject.ext.myTargetSdkVersion
         versionCode 1
         versionName "1.0"
 

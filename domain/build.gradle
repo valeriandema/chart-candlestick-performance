@@ -10,10 +10,10 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion rootProject.ext.myCompileSdkVersion
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion rootProject.ext.myMinSdkVersion
+        targetSdkVersion rootProject.ext.myTargetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -30,7 +30,7 @@ android {
 dependencies {
     implementation "org.koin:koin-androidx-viewmodel:2.0.0-GA"
 
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
 
     // for room
     implementation 'androidx.room:room-runtime:2.2.6'
